@@ -1,5 +1,8 @@
 <?php
 
+## Require config file
+require_once __DIR__ . "/includes/config.php";
+
 ## Get request variables
 
 # User / client ID
