@@ -1,0 +1,2 @@
+# BlestaClientStatements
+Blesta Client Statements
