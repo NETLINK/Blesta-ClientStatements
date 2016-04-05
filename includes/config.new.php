@@ -10,7 +10,7 @@ ini_set( 'display_errors', 1 );
 $salt = "UIUq_8iBcFLOOKBWN_$LOD8VNvGhm$Ht1kV7k4KS";
 
 ## Path to logo
-$logo = 'includes/logo_vector_2.jpg';
+$logo = 'includes/images/logo_vector_2.jpg';
 
 ## Company/organistion information
 
