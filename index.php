@@ -48,7 +48,7 @@ $result->free_result();
 $md5 = md5( $d['id'] . $d['client'] . $d['email'] . $salt );
 
 if ( $key !== $md5 ) {
-	print_r( $md5 . "<br />" );
+	//print_r( $md5 . "<br />" );
 	die( 'Error: the access key provided could not be validated. The link you followed may have expired.' );
 }
 
