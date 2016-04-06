@@ -1,0 +1,22 @@
+<?php
+
+$this->WidgetClient->clear();
+$this->WidgetClient->create( "Account Statements", array( 'id' => "client" ), $this->Html->ifSet( $render_section, NULL ) );
+$this->WidgetClient->startBody();
+
+?>
+		
+		<div class="alert alert-info">
+			<p>Test</p>
+		</div>
+		
+		<p><a href="<?php echo $this->Html->safe( $this->base_uri ); ?>plugin/client_statements/client/download/">Statement</a></p>
+		
+		<p><pre><?php if ( isset( $debug ) ) var_dump( $debug ); ?></pre></p>
+
+<?php
+
+$this->WidgetClient->endBody();
+$this->WidgetClient->end();
+
+?>

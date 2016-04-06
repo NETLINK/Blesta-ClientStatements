@@ -1,0 +1,11 @@
+{
+	"version": "1.0.9",
+	"name": "Client Statements",
+	"description": "Send client statements via email",
+	"authors": [
+		{
+			"name": "NETLINK IT SERVICES",
+			"url": "http://www.netlink.ie/"
+		}
+	]
+}
