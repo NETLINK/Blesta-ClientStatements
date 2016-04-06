@@ -31,7 +31,7 @@ class Client extends ClientStatementsController {
 			$inline = true;
 		}
 		else {
-			$inline = true;
+			$inline = false;
 		}
 		
 		$res = $this->Data->download( $this->user_id, 'EUR', $inline );

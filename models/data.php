@@ -248,7 +248,7 @@ class Data extends ClientStatementsModel {
 				$pdf->Cell( 40, 6, number_format( $row['amount'], 2, '.', ',' ) . " {$this->currency}", 0, 0, 'R', $fill );
 			}
 			
-			$pdf->Cell( 40, 6, 'B' . $row['balance'] . " {$this->currency}", 0, 0, 'R', $fill );
+			$pdf->Cell( 40, 6, $row['balance'] . " {$this->currency}", 0, 0, 'R', $fill );
 			
 			$pdf->Ln();
 			

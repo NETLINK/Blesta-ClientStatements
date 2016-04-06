@@ -10,7 +10,9 @@ $this->WidgetClient->startBody();
 			<p>Test</p>
 		</div>
 		
-		<p><a href="<?php echo $this->Html->safe( $this->base_uri ); ?>plugin/client_statements/client/download/">Statement</a></p>
+		<p>You can use the links below to view and/or download your most recent account statements.</p>
+		
+		<p><a href="<?php echo $this->Html->safe( $this->base_uri ); ?>plugin/client_statements/client/download/inline/Statement" target="_blank">View statement in browser</a> | <a href="<?php echo $this->Html->safe( $this->base_uri ); ?>plugin/client_statements/client/download/">Download statement in PDF format</a></p>
 		
 		<p><pre><?php if ( isset( $debug ) ) var_dump( $debug ); ?></pre></p>
 
