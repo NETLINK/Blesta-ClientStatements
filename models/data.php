@@ -71,7 +71,7 @@ class Data extends ClientStatementsModel {
 			AND status != 'draft'"
 		)->fetch();
 		
-		$balforward = (int)$result->total;
+		$balforward = (float)$result->total;
 		
 		$result = $this->Record->query(
 			"SELECT SUM( amount ) AS total
@@ -82,7 +82,7 @@ class Data extends ClientStatementsModel {
 			AND status = 'approved'"
 		)->fetch();
 		
-		$balforward -= (int)$result->total;
+		$balforward -= (float)$result->total;
 		
 		return $balforward;
 		
