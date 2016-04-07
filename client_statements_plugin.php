@@ -19,6 +19,7 @@ class ClientStatementsPlugin extends Plugin {
 			),
 			*/
 			
+			/*
 			array(
 				'action' => "nav_secondary_staff", // The action to tie into
 				'uri' => "plugin/client_statements/admin_main/index/", // The URI to fetch when the action is needed
@@ -26,6 +27,13 @@ class ClientStatementsPlugin extends Plugin {
 				'options' => array(
 					'parent' => "billing/",
 				),
+			),
+			*/
+			
+			array(
+				'action' => 'action_staff_client',
+				'uri' => "plugin/client_statements/admin/index/",
+				'name' => 'Send Account Statement',
 			),
 			
 			array(
