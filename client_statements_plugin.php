@@ -31,7 +31,7 @@ class ClientStatementsPlugin extends Plugin {
 			array(
 				'action' => "nav_primary_client", // The action to tie into
 				'uri' => "plugin/client_statements/client/index/", // The URI to fetch when the action is needed
-				'name' => "Account Statement", // The name used by Blesta to display for the action (e.g. The name of the link),
+				'name' => "Account Statements", // The name used by Blesta to display for the action (e.g. The name of the link),
 				#'options' => array(
 				#	'parent' => "billing/",
 				#),

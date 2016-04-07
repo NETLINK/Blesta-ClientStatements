@@ -4,9 +4,9 @@ class ClientStatementsController extends AppController {
 	
 	public function preAction() {
 		
-		$this->structure->setDefaultView( APPDIR );
-		
 		parent::preAction();
+		
+		$this->structure->setDefaultView( APPDIR );
 		
 		Configure::load( "config", __DIR__ . DS . "includes" . DS );
 		

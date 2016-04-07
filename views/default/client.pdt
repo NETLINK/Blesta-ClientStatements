@@ -4,17 +4,45 @@ $this->WidgetClient->clear();
 $this->WidgetClient->create( "Account Statements", array( 'id' => "client" ), $this->Html->ifSet( $render_section, NULL ) );
 $this->WidgetClient->startBody();
 
+echo $this->Html->ifSet( $message );
+
 ?>
 		
-		<div class="alert alert-info">
-			<p>Test</p>
+		<h3>You can use the links below to view and/or download your most recent account statements.</h3>
+		
+		<div class="form">
+		<p>
+			<?php $this->Form->create(
+				$this->Html->safe( $this->base_uri ) . "plugin/client_statements/client/download/Statement",
+				array(
+					"id" => "statement_download",
+					"target" => "_blank",
+				) ); ?>
+				<select id="time" name="time">
+					<option value="6">6 month statement</option>
+					<option value="12">12 month statement</option>
+					<option value="24">2 year statement</option>
+				</select>
+				<select name="currency">
+				<?php foreach ( $currencies as $currency ): ?>
+						<option value="<?php echo $currency->currency; ?>"><?php echo $currency->currency; ?></option>
+				<?php endforeach; ?>
+				</select>
+				<button class="plain" type="submit" name="disposition" value="inline" onclick="return form_target( '_blank' );">View statement</button> |
+				<button class="plain" type="submit" name="disposition" value="attachment" onclick="return form_target( '_parent' );">Download statement in PDF format</button>
+			<?php $this->Form->end(); ?>
+		</p>
+		
 		</div>
 		
-		<p>You can use the links below to view and/or download your most recent account statements.</p>
+		<?php /*<p><pre><?php if ( isset( $debug ) ) var_dump( $debug ); ?></pre></p>*/ ?>
 		
-		<p><a href="<?php echo $this->Html->safe( $this->base_uri ); ?>plugin/client_statements/client/download/inline/Statement" target="_blank">View statement in browser</a> | <a href="<?php echo $this->Html->safe( $this->base_uri ); ?>plugin/client_statements/client/download/">Download statement in PDF format</a></p>
-		
-		<p><pre><?php if ( isset( $debug ) ) var_dump( $debug ); ?></pre></p>
+		<script>
+			function form_target( target ) {
+				$( "#statement_download" ).attr( "target", target );
+				return true;
+			}
+		</script>
 
 <?php
 

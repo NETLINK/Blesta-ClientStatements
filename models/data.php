@@ -17,19 +17,6 @@ class Data extends ClientStatementsModel {
 		
 		$this->uid = $uid;
 		
-		if ( ! in_array( $currency, Configure::get( 'client_statements.valid_currencies' ) ) ) {
-			$this->Input->setErrors(
-				array(
-					"Input" => array(
-						"invalid" => sprintf(
-							"Invalid currency selected. Supported currencies are %s.", implode( ', ', Configure::get( "client_statements.valid_currencies" ) )
-						)
-					)
-				)
-			);
-			return false;
-		}
-		
 		$this->currency = $currency;
 		
 		$this->date = date( "Y-m-d", strtotime( "-{$months} months" ) );
@@ -153,33 +140,36 @@ class Data extends ClientStatementsModel {
 		
 		$pdf = new FPDF();
 		
+		$company = Configure::get( "Blesta.company" );
+		
 		## Column titles
 		$header = array( 'Date', 'Type', 'ID', 'Amount', 'Balance' );
 		
 		$pdf->AddPage();
 		
 		$pdf->Image( Configure::get( 'client_statements.logo' ), 0, 0 );
+		
 		$pdf->SetFont( 'Arial', 'B', 10 );
-		$pdf->Cell( 120, 6, '', 0, 0, 'L' );
-		$pdf->Cell( 0, 6,  Configure::get( 'Blesta.company_name' ), 0, 0, 'L' );
+		
+		$pdf->Cell( 120, 8, '', 0, 0, 'L' );
+		$pdf->Cell( 0, 8, $company->name, 0, 0, 'L' );
 		$pdf->Ln();
 		
 		$pdf->SetFont( 'Arial', '', 10 );
 		
+		$address_lines = explode( PHP_EOL, $company->address );
+		
+		foreach ( $address_lines as $address_line ) {
+			$pdf->Cell( 120, 0, '', 0, 0, 'L' );
+			$pdf->Cell( 0, 4, $address_line, 0, 0, 'L' );
+			$pdf->Ln();
+		}
+		
 		$pdf->Cell( 120, 6, '', 0, 0, 'L' );
-		$pdf->Cell( 0, 6, '[ADDRESS]', 0, 0, 'L' );
+		$pdf->Cell( 0, 7, "Phone: " . $company->phone, 0, 0, 'L' );
 		$pdf->Ln();
 		$pdf->Cell( 120, 6, '', 0, 0, 'L' );
-		$pdf->Cell( 0, 6, '[ADDRESS]', 0, 0, 'L' );
-		$pdf->Ln();
-		$pdf->Cell( 120, 6, '', 0, 0, 'L' );
-		$pdf->Cell( 0, 6, '[ADDRESS]', 0, 0, 'L' );
-		$pdf->Ln( 8 );
-		$pdf->Cell( 120, 6, '', 0, 0, 'L' );
-		$pdf->Cell( 0, 6, Configure::get( 'Blesta.company_phone' ), 0, 0, 'L' );
-		$pdf->Ln();
-		$pdf->Cell( 120, 6, '', 0, 0, 'L' );
-		$pdf->Cell( 0, 6, '[TAX_ID]', 0, 0, 'L' );
+		$pdf->Cell( 0, 6, Configure::get( 'client_statements.org_tax_id' ), 0, 0, 'L' );
 		$pdf->Ln( 18 );
 		
 		$pdf->SetFont( 'Arial', '', 14 );
