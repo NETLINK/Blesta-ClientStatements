@@ -9,6 +9,8 @@ class Client extends ClientStatementsController {
 		
         parent::preAction();
 		
+		$this->requireLogin();
+		
 		## Load Invoices class
 		$this->uses( array( "Invoices" ) );
 		
