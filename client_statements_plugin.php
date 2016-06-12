@@ -34,6 +34,9 @@ class ClientStatementsPlugin extends Plugin {
 				'action' => 'action_staff_client',
 				'uri' => "plugin/client_statements/admin/index/",
 				'name' => 'Send Account Statement',
+				'options' => array(
+					'class' => 'statements',
+				),
 			),
 			
 			array(
