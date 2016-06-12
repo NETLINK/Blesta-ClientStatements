@@ -253,7 +253,7 @@ class Data extends ClientStatementsModel {
 		
 		$pdf->Cell( 80, 6, 'Your current account balance is:', 0, 0, 'L' );
 		$pdf->SetFont( 'Arial', 'B', 13 );
-		$pdf->Cell( 80, 6, $this->balance . " {$this->currency}", 0, 0, 'L' );
+		$pdf->Cell( 80, 6, number_format( $this->balance, 2, '.', ',' ) . " {$this->currency}", 0, 0, 'L' );
 		
 		$pdf->Ln( 8 );
 		
