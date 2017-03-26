@@ -44,7 +44,6 @@ class Data extends ClientStatementsModel {
 			FROM invoices
 			WHERE client_id = '$uid'
 			AND DATE_FORMAT( `date_billed`, '%Y-%m-%d' ) < '{$this->date}'
-			AND `date_billed` <= CURDATE()
 			AND `currency` = '{$this->currency}'
 			AND status != 'void'
 			AND status != 'draft'"
@@ -82,7 +81,7 @@ class Data extends ClientStatementsModel {
 					WHERE `client_id` = '$uid'
 					AND `currency` = '{$this->currency}'
 					AND `date_billed` >= '{$this->date}'
-					AND `date_billed` <= CURDATE()
+					AND `date_billed` <= CURDATE() + INTERVAL 1 DAY
 					AND `status` != 'void'
 					AND `status` != 'draft'
 			)
