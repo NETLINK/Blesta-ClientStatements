@@ -51,16 +51,20 @@ class Admin extends ClientStatementsController {
 				$this->post['to'] = $this->Html->ifSet( $this->post['recipient_other'] );
 			}
 			
+			$tags = $email->tags;
+			$to_addresses = array (  );
+			
 			# Attempt to send the email
 			$this->Emails->send( 'ClientStatements.send_statement', Configure::get( "Blesta.company_id" ), NULL, $to_addresses, $tags );
 			
 			if ( ( $errors = $this->Emails->errors() ) ) {
-				$this->setMessage( "error", $errors );
+				$this->setMessage( "error", $errors, false, null, false );
 			}
 			else {
 				$this->flashMessage( "message", Language::_( "AdminClients.!success.email_sent", true ) );
 				$this->redirect( $this->base_uri . "clients/view/" . $client->id . "/" );
 			}
+			
 			$vars = (object)$this->post;
 		}
 		
@@ -85,7 +89,8 @@ class Admin extends ClientStatementsController {
 		$this->Javascript->setFile( "ckeditor/ckeditor.js", "head", VENDORWEBDIR );
 		$this->Javascript->setFile( "ckeditor/adapters/jquery.js", "head", VENDORWEBDIR );
 		
-		$this->view->set( $this->view->fetch( "admin_clients_email" ) );
+		$this->view->set( $this->view->fetch( 'email', 'admin/default' ) );
+		//$this->view($this->view->fetch("admin_clients_email"));
 	}
 	
 }

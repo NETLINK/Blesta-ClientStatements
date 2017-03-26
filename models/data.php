@@ -8,25 +8,16 @@ class Data extends ClientStatementsModel {
 		parent::__construct();
 	}
 	
-	public function download( $uid, $currency, $inline = false, $months = 6 ) {
-		
-		$client = $this->getClient( $uid );
-		
-		if ( ! $client )
+	public function getStatement( $uid, $currency, $output = 'D', $months = 6 ) {
+		if ( ! $client = $this->getClient( $uid ) ) {
 			return false;
-		
+		}
 		$this->uid = $uid;
-		
 		$this->currency = $currency;
-		
 		$this->date = date( "Y-m-d", strtotime( "-{$months} months" ) );
-		
 		$this->balforward = $this->getBalanceForward( $uid );
-		
 		$data = $this->getTransactions( $uid, $this->balforward );
-		
-		return $this->createPDF( $client, $data, $inline );
-		
+		return $this->createPDF( $client, $data, $output );
 	}
 	
 	private function getClient( $uid ) {
@@ -136,7 +127,7 @@ class Data extends ClientStatementsModel {
 		
 	}
 	
-	private function createPDF( $client, $data, $inline = false ) {
+	private function createPDF( $client, $data, $output = 'D' ) {
 		
 		require_once PLUGINDIR . DS . "client_statements" . DS . "includes". DS . "fpdf181" . DS . "fpdf.php";
 		
@@ -261,22 +252,30 @@ class Data extends ClientStatementsModel {
 		
 		$pdf->MultiCell( 150, 6, Configure::get( "client_statements.footer_text" ) );
 		
-		$pdf->Ln(5);
-		$pdf->Ln(1);
+		$pdf->Ln( 5 );
+		$pdf->Ln( 1 );
 		
-		## Add HTTP headers
-		header( "Cache-Control: no-cache, must-revalidate" ); // No caching
-		header( "Expires: 0" ); // Expires header
-		header( "Pragma: public" );
-		header( "Content-Description: File Transfer" ); // Content description
-		header( "Content-type: application/pdf" ); // Content type PDF
-		header( "Content-Disposition: " . ( $inline ? "'inline'" : "'attachment'" ) . "; filename='Statement_" . gmdate( 'Y_m_d' ) . ".pdf'" ); // Filename and attachment|inline
-		header( "Content-Transfer-Encoding: binary" ); // Encoding
-		
-		## Send output
-		$pdf->Output( 'Statement_' .gmdate( 'Y_m_d' ) . '.pdf', ( $inline ? 'I' : 'D' ) );
-		
-		return;
+		if ( $output === 'D' || $output === 'I' ) {
+			## Add HTTP headers
+			header( "Cache-Control: no-cache, must-revalidate" ); // No caching
+			header( "Expires: 0" ); // Expires header
+			header( "Pragma: public" );
+			header( "Content-Description: File Transfer" ); // Content description
+			header( "Content-type: application/pdf" ); // Content type PDF
+			header( "Content-Disposition: " . ( ($output == 'I' ) ? "'inline'" : "'attachment'" ) . "; filename='Statement_" . gmdate( 'Y_m_d' ) . ".pdf'" ); // Filename and attachment|inline
+			header( "Content-Transfer-Encoding: binary" ); // Encoding
+			## Send output
+			$pdf->Output( $output, 'Statement_' .gmdate( 'Y_m_d' ) . '.pdf', $output );
+			return;
+		}
+		else {
+			//if ( ! $tmpfname = tempnam( '/tmp', 'Blesta_' ) ) {
+			if ( ! $tmpfname = tempnam( sys_get_temp_dir(), 'Blesta_' ) ) {
+				return false;
+			}
+			$pdf->Output( $tmpfname, 'S' );
+			return $tmpfname;
+		}
 		
 	}
 }

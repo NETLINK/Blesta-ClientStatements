@@ -42,18 +42,18 @@ class Client extends ClientStatementsController {
 		if ( ! $this->isValidCurrency( $currency ) ) $currency = $this->currencies[0]->currency;
 				
 		if ( isset( $this->post['disposition'] ) && $this->post['disposition'] === "inline" ) {
-			$inline = true;
+			$output = 'I';
 		}
 		else if ( isset( $this->get[0] ) && $this->get[0] === "inline" ) {
-			$inline = true;
+			$output = 'I';
 		}
 		else {
-			$inline = false;
+			$output = 'D';
 		}
 		
 		$months = isset( $this->post['time'] ) ? $this->post['time'] : NULL;
 		
-		$res = $this->Data->download( $this->user_id, $currency, $inline, $months );
+		$res = $this->Data->getStatement( $this->user_id, $currency, $output, $months );
 		
 		$this->set( "debug", $res );
 	}
